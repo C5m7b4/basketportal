@@ -8,8 +8,13 @@ const Tree: React.FC<{
   onClick: (node: TreeNodeProps) => void;
 }> = ({ treeData, onClick }) => {
   const handleNodeClick = (node: TreeNodeProps) => {
-    onClick(node);
+    if (onClick) {
+      onClick(node);
+    } else {
+      console.log('could not find an onlick event to process');
+    }
   };
+
   return (
     <div style={{ padding: '5px', width: '100%' }}>
       {treeData.map((node) => (

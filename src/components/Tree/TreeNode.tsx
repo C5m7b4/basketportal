@@ -14,12 +14,13 @@ const TreeNode: React.FC<{
   onClick: (node: TreeNodeProps) => void;
 }> = ({ node, onClick }) => {
   const { children, label, type } = node;
-  const [showChildren, setShowChildren] = useState(true);
+  const [showChildren, setShowChildren] = useState(
+    node.type == 'server' ? true : false
+  );
 
   const handleClick = () => {
     console.log('node clicked');
     setShowChildren(!showChildren);
-    debugger;
     if (node.type === 'database') {
       onClick(node);
     }
@@ -32,11 +33,14 @@ const TreeNode: React.FC<{
           {type === 'server' ? <Server /> : null}
           {type === 'table' ? <Table /> : null}
           {type === 'database' ? <SmallDatabase /> : null}
+          {type === 'column' ? <Column /> : null}
           {label}
         </span>
       </div>
       <ul style={{ margin: 0 }}>
-        {children.length > 0 && showChildren && <Tree treeData={children} />}
+        {children.length > 0 && showChildren && (
+          <Tree treeData={children} onClick={onClick} />
+        )}
       </ul>
     </>
   );

@@ -1,2 +1,5 @@
 https://github.com/ljaviertovar/reusable-modals-react-ts/blob/main/src/ts/interfaces/modal.interface.ts
 
+https://dev.to/koyablue/dark-mode-with-nextjs-typescript-styled-components-and-redux-toolkit-3863#configure-rtk-and-styled-components-in-apptsx
+
+https://colorffy.com/dark-theme-generator

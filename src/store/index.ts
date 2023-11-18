@@ -3,6 +3,7 @@ import counterReducer from '@/slices/counterSlice';
 import appReducer from '@/slices/appSlice';
 import dbReducer from '@/slices/dbExplorerSlice';
 import loginReducer from '@/slices/loginSlice';
+import colorThemeReducer from '@/slices/colorThemeSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     counter: counterReducer,
     dbs: dbReducer,
     login: loginReducer,
+    colorTheme: colorThemeReducer,
   },
 });
 

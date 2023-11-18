@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -8,7 +8,9 @@ import { signin } from '../api/loginApi';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
 import { setAuthenticated } from '@/slices/loginSlice';
-import { ThemePreferenceContext } from './Root';
+import useColorTheme from '@/hooks/useColorTheme';
+import { updateColorTheme } from '@/slices/colorThemeSlice';
+import { colorThemeNames } from '../styles/themes';
 
 interface Response {
   error: number;
@@ -37,13 +39,30 @@ const Form = styled.form`
   width: 50%;
 `;
 
+const Button = styled.button(
+  ({ theme }) =>
+    `
+  background-color: ${theme.buttons.primary.background};
+  color: ${theme.buttons.primary.text};
+  border-radius: 10px;
+  &:hover {
+    background-color: ${theme.buttons.primary.hover};
+    color: ${theme.buttons.primary.text};
+  }
+`
+);
+
 const Login = () => {
   const loginState = useSelector((state: RootState) => state.login);
   const appState = useSelector((state: RootState) => state.app);
+  const themeState = useSelector((state: RootState) => state.colorTheme);
   const dispatch = useDispatch();
-  const { currentTheme, setCurrentTheme } = useContext(ThemePreferenceContext);
+  const { getCurrentColorThemeStyle } = useColorTheme();
 
-  const submit = (e: any) => {
+  const currentColorTheme = getCurrentColorThemeStyle();
+  console.log('currentColorTheme', currentColorTheme);
+
+  const submit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const eUsername = encrypt(loginState.username, appState.eKey).toString();
     const ePassword = encrypt(loginState.password, appState.eKey).toString();
@@ -76,17 +95,23 @@ const Login = () => {
           value={loginState.password}
           type="password"
         />
-        <button type="submit" onClick={submit} className="btn">
+        <Button type="submit" onClick={submit} className="btn">
           Login
-        </button>
+        </Button>
       </Form>
-      <div>{currentTheme}</div>
+      <div>{themeState.theme}</div>
       <select
-        value={currentTheme}
-        onChange={(e) => setCurrentTheme(e.target.value)}
+        value={themeState.theme}
+        onChange={(e) => {
+          dispatch(updateColorTheme(colorThemeNames[Number(e.target.value)]));
+        }}
       >
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
+        <option value="0">Pick a theme</option>
+        {colorThemeNames.map((c, i) => (
+          <option key={i} value={i}>
+            {c}
+          </option>
+        ))}
       </select>
     </LoginDiv>
   );

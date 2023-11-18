@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type DbColumn = string;
+export interface DbColumn {
+  name: string;
+  position: number;
+  nullable: string;
+  dataType: string;
+  maxLength: string;
+  precision: string;
+}
 
 export interface DbTable {
   name: string;
