@@ -1,0 +1,2 @@
+https://github.com/ljaviertovar/reusable-modals-react-ts/blob/main/src/ts/interfaces/modal.interface.ts
+

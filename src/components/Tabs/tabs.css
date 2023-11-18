@@ -1,0 +1,24 @@
+.tabs ul {
+  all: unset;
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+}
+
+.tag-title {
+  margin-left: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 3px 8px;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.tag-title:hover {
+  background-color: rgb(110, 109, 109);
+  cursor: pointer;
+}
+
+.tag-title button {
+  all: unset;
+}
