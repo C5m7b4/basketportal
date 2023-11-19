@@ -1,34 +1,60 @@
 import React from 'react';
+import styled from 'styled-components';
+import useColorTheme from '@/hooks/useColorTheme';
+import { ColorThemeStyle } from '@/styles/themes';
 import './styles.css';
-const splitPaneContext = React.createContext();
 
-export default function SplitPane({ children, ...props }) {
-  const [topHeight, setTopHeight] = React.useState(null);
-  const separatorYPosition = React.useRef(null);
+interface MainProps {
+  theme: ColorThemeStyle;
+  direction: 'row' | 'column';
+}
 
-  const splitPaneRef = React.createRef();
+const Main = styled.div<MainProps>`
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  width: 100%;
+`;
 
-  const onMouseDown = (e) => {
+export type SplitPaneContextType = {
+  topHeight: number;
+  setTopHeight: (n: number) => void;
+};
+const initialValue: SplitPaneContextType = {
+  topHeight: 0,
+  setTopHeight: (n: number) => n,
+};
+const SplitPaneContext =
+  React.createContext<SplitPaneContextType>(initialValue);
+
+export type PanelDirection = 'vertical' | 'horizontal';
+type SplitPaneProps = {
+  children: JSX.Element[];
+  direction: PanelDirection;
+};
+
+const SplitPane: React.FC<SplitPaneProps> = ({
+  children,
+  direction = 'vertical',
+}) => {
+  const { getCurrentColorThemeStyle } = useColorTheme();
+  const theme = getCurrentColorThemeStyle();
+  const [topHeight, setTopHeight] = React.useState<number>(0);
+  const separatorYPosition = React.useRef<number | null>(null);
+  const splitPaneRef = React.createRef<HTMLDivElement>();
+
+  const onMouseDown = (e: React.MouseEvent) => {
     separatorYPosition.current = e.clientY;
   };
 
-  const onMouseMove = (e) => {
+  const onMouseMove = (e: MouseEvent) => {
     if (!separatorYPosition.current) {
       return;
     }
-    console.log(topHeight, e.clientY, separatorYPosition.current);
-    const newTopHeight = topHeight + e.clientY - separatorYPosition.current;
+    const newTopHeight =
+      Number(topHeight) + e.clientY - separatorYPosition.current;
     separatorYPosition.current = e.clientY;
 
-    // if (newTopHeight <= 0) {
-    //   return topHeight !== 0 && setTopHeight(0);
-    // }
-
-    const splitPaneHeight = splitPaneRef.current.clientHeight;
-
-    // if (newTopHeight >= splitPaneHeight) {
-    //   return topHeight !== splitPaneHeight && setTopHeight(splitPaneHeight);
-    // }
+    //const splitPaneHeight = splitPaneRef?.current?.clientHeight;
 
     setTopHeight(newTopHeight);
   };
@@ -48,21 +74,34 @@ export default function SplitPane({ children, ...props }) {
   });
 
   return (
-    <div {...props} className="split-pane" ref={splitPaneRef}>
-      <splitPaneContext.Provider value={{ topHeight, setTopHeight }}>
-        {children[0]}
+    <Main
+      id="main-splitter-div"
+      ref={splitPaneRef}
+      direction={direction === 'vertical' ? 'column' : 'row'}
+      theme={theme}
+    >
+      <SplitPaneContext.Provider value={{ topHeight, setTopHeight }}>
+        <PaneOne contents={children[0]} direction={direction} />
         <div className="separator" onMouseDown={onMouseDown} />
-        {children[1]}
-      </splitPaneContext.Provider>
-    </div>
+        <PaneTwo contents={children[1]} />
+      </SplitPaneContext.Provider>
+    </Main>
   );
-}
+};
 
-SplitPane.Top = function SplitPaneTop(props) {
-  const topRef = React.createRef();
-  const { topHeight, setTopHeight } = React.useContext(splitPaneContext);
+export type PaneProps = {
+  contents: JSX.Element;
+  direction?: PanelDirection;
+};
+
+export const PaneOne: React.FC<PaneProps> = ({ contents, direction }) => {
+  const topRef = React.createRef<HTMLDivElement>();
+  const { topHeight, setTopHeight } = React.useContext(SplitPaneContext);
 
   React.useEffect(() => {
+    if (!topRef) return;
+    if (!topRef.current) return;
+
     if (!topHeight) {
       setTopHeight(topRef.current.clientHeight);
       topRef.current.style.flex = 'none';
@@ -73,12 +112,14 @@ SplitPane.Top = function SplitPaneTop(props) {
   }, [topHeight]);
 
   return (
-    <div {...props} className="split-pane-top" ref={topRef}>
-      {props.children}
+    <div className="split-pane-top" ref={topRef}>
+      {contents}
     </div>
   );
 };
 
-SplitPane.Bottom = function SplitPaneBottom(props) {
-  return <div {...props} className="split-pane-bottom" />;
+export const PaneTwo: React.FC<PaneProps> = ({ contents }) => {
+  return <div style={{ height: '75%' }}>{contents}</div>;
 };
+
+export default SplitPane;

@@ -34,11 +34,16 @@ const DbExplorer = () => {
       </h3>
 
       <div
-        style={{ height: 800, border: '2px solid black', borderRadius: '8px' }}
+        style={{
+          height: 800,
+          border: '2px solid black',
+          borderRadius: '8px',
+          display: 'flex',
+        }}
       >
-        <SplitPane>
-          <SplitPane.Top>Hello top</SplitPane.Top>
-          <SplitPane.Bottom>Hello bottom</SplitPane.Bottom>
+        <SplitPane direction="vertical">
+          <div>Hello top</div>
+          <div>Hello bottom</div>
         </SplitPane>
         {/* <SplitPane split="vertical" minSize={50}>
           <div>div1</div>
