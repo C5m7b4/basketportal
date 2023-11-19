@@ -59,12 +59,12 @@ export const lightTheme: ColorThemeStyle = {
     dangerBg: translucentUnicorn,
   },
   body: {
-    text: dark_mixed_600,
-    background: dark_mixed_100,
+    background: errigalWhite,
+    text: dryadBark,
   },
   sidebar: {
-    text: dryadBark,
     color: light_primary_400,
+    text: dryadBark,
   },
   buttons: {
     primary: {
@@ -87,12 +87,12 @@ export const darkTheme: ColorThemeStyle = {
     dangerBg: translucentUnicorn,
   },
   body: {
-    text: dark_mixed_600,
-    background: dark_mixed_100,
+    background: dark_surface_100,
+    text: dark_surface_600,
   },
   sidebar: {
-    text: dryadBark,
-    color: light_primary_400,
+    color: dark_surface_100,
+    text: dark_surface_500,
   },
   buttons: {
     primary: {
@@ -119,8 +119,8 @@ export const mixedTheme: ColorThemeStyle = {
     text: dark_mixed_600,
   },
   sidebar: {
-    text: dryadBark,
-    color: light_primary_400,
+    color: dark_mixed_100,
+    text: dark_mixed_500,
   },
   buttons: {
     primary: {
@@ -147,8 +147,8 @@ export const skyTheme: ColorThemeStyle = {
     text: sky_mixed_600,
   },
   sidebar: {
-    text: dryadBark,
-    color: light_primary_400,
+    color: sky_mixed_100,
+    text: sky_mixed_500,
   },
   buttons: {
     primary: {

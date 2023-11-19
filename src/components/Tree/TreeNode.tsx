@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Tree from './Tree';
 import { ITreeData, NodeType } from './types';
-import { Plus, Minus, Server, Table, Column, SmallDatabase } from '../../svgs';
+import { Server, Table, Column, SmallDatabase } from '../../svgs';
 
 export interface TreeNodeProps {
   children: ITreeData[];
@@ -37,7 +37,7 @@ const TreeNode: React.FC<{
           {label}
         </span>
       </div>
-      <ul style={{ margin: 0 }}>
+      <ul style={{ margin: 0, paddingLeft: '20px' }}>
         {children.length > 0 && showChildren && (
           <Tree treeData={children} onClick={onClick} />
         )}

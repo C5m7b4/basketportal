@@ -1,6 +1,9 @@
 import React from 'react';
+import useColorTheme from '../hooks/useColorTheme';
 
 export const Column = () => {
+  const { getCurrentColorThemeStyle } = useColorTheme();
+  const theme = getCurrentColorThemeStyle();
   return (
     <div style={{ cursor: 'pointer', marginTop: '3px' }}>
       <svg
@@ -12,19 +15,31 @@ export const Column = () => {
         <rect
           x="112.47"
           y="17.18"
-          style={{ fill: '#fff', stroke: '#000', strokeWidth: '15' }}
+          style={{
+            fill: '#fff',
+            stroke: theme.sidebar.text,
+            strokeWidth: '15',
+          }}
           width="285.06"
           height="462.07"
         />
         <line
-          style={{ fill: 'none', stroke: '#000', strokeWidth: '15' }}
+          style={{
+            fill: 'none',
+            stroke: theme.sidebar.text,
+            strokeWidth: '15',
+          }}
           x1="112.47"
           y1="118.33"
           x2="397.53"
           y2="118.33"
         />
         <line
-          style={{ fill: 'none', stroke: '#000', strokeWidth: '15' }}
+          style={{
+            fill: 'none',
+            stroke: theme.sidebar.text,
+            strokeWidth: '15',
+          }}
           x1="117.07"
           y1="340.75"
           x2="397.53"

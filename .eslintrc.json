@@ -32,7 +32,8 @@
     "jsx-a11y/no-static-element-interactions": 0,
     "@typescript-eslint/ban-ts-comment": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
-    "no-case-declarations": 0
+    "no-case-declarations": 0,
+    "@typescript-eslint/restrict-template-expressions": 0
   },
   "plugins": ["react", "import", "jsx-a11y", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",

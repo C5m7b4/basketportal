@@ -1,41 +1,30 @@
-import { RootState } from '@/store';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { DbTable, setDatabases } from '@/slices/dbExplorerSlice';
-import { AxiosResponse } from 'axios';
-import { Database } from '@/slices/dbExplorerSlice';
-import SplitPane from '../components/SplitPane/SplitPane';
-import Pane from '../components/SplitPane/pane';
-import Tree from '../components/Tree/Tree';
-import { Filter, Database as Db, Save, Plus, Minus } from '../svgs';
+//import SplitPane from '../components/SplitPane/SplitPane';
+//import Pane from '../components/SplitPane/pane';
+// import SplitPane from '../components/SplitPane/SplitPane';
+import SplitPane from '../components/SplitPane/SplitPane1';
+import { Database as Db, Save, Plus, Minus } from '../svgs';
 import Tabs from '@/components/Tabs/Tabs';
 import Tab from '@/components/Tabs/Tab';
 import Server from '../components/DbExplorer/Server';
+import styled from 'styled-components';
 
-import { TreeNodeProps } from '@/components/Tree/TreeNode';
-
-function style(color: string) {
-  return {
-    height: '100%',
-    display: 'flex',
-  };
-}
+const Main = styled.div(
+  ({ theme }) => `
+    background-color: ${theme.body.background};
+    color: ${theme.body.text};
+  `
+);
 
 const DbExplorer = () => {
-  const context = useSelector((state: RootState) => state.app);
-  const state = useSelector((state: RootState) => state.dbs);
-  const [sizes, setSizes] = useState([100, '30%', 'auto']);
-  const [sizes1, setSizes1] = useState([100, '30%', 'auto']);
-
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
+  // const [sizes, setSizes] = useState([100, '30%', 'auto']);
+  // const [sizes1, setSizes1] = useState([100, '30%', 'auto']);
 
   useEffect(() => {}, []);
 
   return (
-    <div>
-      <h3 style={{ display: 'grid', gridTemplateColumns: '30px 1fr' }}>
+    <Main>
+      <h3 style={{ display: 'grid', gridTemplateColumns: '50px 1fr' }}>
         <span>
           <Db />
         </span>
@@ -47,16 +36,24 @@ const DbExplorer = () => {
       <div
         style={{ height: 800, border: '2px solid black', borderRadius: '8px' }}
       >
-        <SplitPane
+        <SplitPane>
+          <SplitPane.Top>Hello top</SplitPane.Top>
+          <SplitPane.Bottom>Hello bottom</SplitPane.Bottom>
+        </SplitPane>
+        {/* <SplitPane split="vertical" minSize={50}>
+          <div>div1</div>
+          <div>div2</div>
+        </SplitPane> */}
+        {/* <SplitPane
           split="vertical"
           sizes={sizes}
           onChange={setSizes}
           sashClassName="sash"
         >
           <Server />
-          <div style={style('#ccc')}>
+          <div style={{ height: '100%', display: 'flex' }}>
             <SplitPane split="horizontal" sizes={sizes1} onChange={setSizes1}>
-              <Pane minSize={100} maxSize="80%">
+              <Pane>
                 <div>
                   <div className="query-toolbar">
                     <span style={{ marginLeft: '5px', marginTop: '3px' }}>
@@ -83,9 +80,9 @@ const DbExplorer = () => {
               </div>
             </SplitPane>
           </div>
-        </SplitPane>
+        </SplitPane> */}
       </div>
-    </div>
+    </Main>
   );
 };
 

@@ -3,3 +3,11 @@ https://github.com/ljaviertovar/reusable-modals-react-ts/blob/main/src/ts/interf
 https://dev.to/koyablue/dark-mode-with-nextjs-typescript-styled-components-and-redux-toolkit-3863#configure-rtk-and-styled-components-in-apptsx
 
 https://colorffy.com/dark-theme-generator
+
+https://github.com/pocesar/react-split-pane-perf/blob/typescript/src/Resizer.tsx
+
+
+https://tinloof.com/blog/how-to-make-your-own-splitpane-react-component-with-0-dependencies#%F0%9F%91%86-one-more-tiny-improvement
+
+
+https://codesandbox.io/s/compassionate-meninsky-9x9kt?fontsize=14&view=preview&file=/src/SplitPane.js

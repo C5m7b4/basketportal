@@ -147,10 +147,8 @@ const Server = () => {
     });
   };
 
-  const handleClick = (node: TreeNodeProps) => {};
-
   return (
-    <Pane minSize={50} maxSize="50%">
+    <Pane>
       <InnerPane>
         <input
           style={{
@@ -169,7 +167,7 @@ const Server = () => {
       </InnerPane>
       <InnerPane style={{ height: '100vh', display: 'flex' }}>
         {treeData ? (
-          <Tree treeData={treeData} onClick={handleClick} />
+          <Tree treeData={treeData} />
         ) : (
           <div>Waiting for data...</div>
         )}

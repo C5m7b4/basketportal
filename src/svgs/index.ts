@@ -14,6 +14,10 @@ import { SmallDatabase } from './SmalllDatabase';
 import { Save } from './Save';
 import { NightMode } from './NightMode';
 import { Clipboard } from './Clipboard';
+import { LightMode } from './LightMode';
+import { SkyMode } from './SkyMode';
+import { RelaxMode } from './RelaxMode';
+import { Calendar } from './Calendar';
 
 export {
   Plus,
@@ -32,4 +36,8 @@ export {
   Save,
   NightMode,
   Clipboard,
+  LightMode,
+  SkyMode,
+  RelaxMode,
+  Calendar,
 };

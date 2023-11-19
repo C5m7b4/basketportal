@@ -1,6 +1,10 @@
 import React from 'react';
+import useColorTheme from '../hooks/useColorTheme';
 
 export const History = () => {
+  const { getCurrentColorThemeStyle } = useColorTheme();
+  const theme = getCurrentColorThemeStyle();
+
   return (
     <div
       style={{
@@ -16,7 +20,7 @@ export const History = () => {
         <line
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -28,7 +32,7 @@ export const History = () => {
         <polygon
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -37,7 +41,7 @@ export const History = () => {
         <circle
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -48,7 +52,7 @@ export const History = () => {
         <circle
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -59,7 +63,7 @@ export const History = () => {
         <circle
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -70,7 +74,7 @@ export const History = () => {
         <line
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -82,7 +86,7 @@ export const History = () => {
         <line
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}
@@ -94,7 +98,7 @@ export const History = () => {
         <line
           style={{
             fill: 'none',
-            stroke: '#000',
+            stroke: theme.sidebar.text,
             strokeWidth: '20',
             strokeLinecap: 'round',
           }}

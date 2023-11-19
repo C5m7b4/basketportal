@@ -1,6 +1,13 @@
 import React from 'react';
+import useColorTheme from '../hooks/useColorTheme';
 
 export const Gauge = () => {
+  const { getCurrentColorThemeStyle } = useColorTheme();
+  const theme = getCurrentColorThemeStyle();
+  const style = {
+    fill: theme.sidebar.text,
+  };
+
   return (
     <div
       style={{
@@ -14,6 +21,7 @@ export const Gauge = () => {
         viewBox="0 0 512 512"
       >
         <path
+          style={style}
           d="M251,48.53C136.42,48.53,43.53,141.42,43.53,256S136.42,463.47,251,463.47S458.47,370.58,458.47,256S365.58,48.53,251,48.53
 	z M256,80.29c20.79,0,37.65,16.86,37.65,37.65s-16.86,37.65-37.65,37.65s-37.65-16.86-37.65-37.65S235.21,80.29,256,80.29z M156,135
 	c20.79,0,37.65,16.86,37.65,37.65c0,20.79-16.86,37.65-37.65,37.65s-37.65-16.86-37.65-37.65C118.35,151.86,135.21,135,156,135z

@@ -5,7 +5,7 @@ import { TreeNodeProps } from './TreeNode';
 
 const Tree: React.FC<{
   treeData: ITreeData[];
-  onClick: (node: TreeNodeProps) => void;
+  onClick?: (node: TreeNodeProps) => void;
 }> = ({ treeData, onClick }) => {
   const handleNodeClick = (node: TreeNodeProps) => {
     if (onClick) {
@@ -16,7 +16,7 @@ const Tree: React.FC<{
   };
 
   return (
-    <div style={{ padding: '5px', width: '100%' }}>
+    <div style={{ width: '100%' }}>
       {treeData.map((node) => (
         <TreeNode node={node} key={node.key} onClick={handleNodeClick} />
       ))}

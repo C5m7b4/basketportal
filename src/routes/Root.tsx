@@ -6,6 +6,14 @@ import Login from './Login';
 import Sidebar from '../components/Sidebar';
 import { RootState } from '@/store';
 import useColorTheme from '@/hooks/useColorTheme';
+import styled from 'styled-components';
+
+const Detail = styled.div(
+  ({ theme }) => `
+    background-color: ${theme.body.background};
+    color: ${theme.body.text};
+  `
+);
 
 export default function Root() {
   const loginState = useSelector((state: RootState) => state.login);
@@ -19,9 +27,9 @@ export default function Root() {
         ) : (
           <div style={{ display: 'flex', height: '100%', width: '1000%' }}>
             <Sidebar />
-            <div id="detail">
+            <Detail id="detail">
               <Outlet />
-            </div>
+            </Detail>
           </div>
         )}
       </div>
