@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -57,10 +57,11 @@ const Login = () => {
   const appState = useSelector((state: RootState) => state.app);
   const themeState = useSelector((state: RootState) => state.colorTheme);
   const dispatch = useDispatch();
-  const { getCurrentColorThemeStyle } = useColorTheme();
+  const { initColorTheme } = useColorTheme();
 
-  const currentColorTheme = getCurrentColorThemeStyle();
-  console.log('currentColorTheme', currentColorTheme);
+  useEffect(() => {
+    initColorTheme();
+  }, []);
 
   const submit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -99,20 +100,7 @@ const Login = () => {
           Login
         </Button>
       </Form>
-      <div>{themeState.theme}</div>
-      <select
-        value={themeState.theme}
-        onChange={(e) => {
-          dispatch(updateColorTheme(colorThemeNames[Number(e.target.value)]));
-        }}
-      >
-        <option value="0">Pick a theme</option>
-        {colorThemeNames.map((c, i) => (
-          <option key={i} value={i}>
-            {c}
-          </option>
-        ))}
-      </select>
+      <div>Current Theme: {themeState.theme}</div>
     </LoginDiv>
   );
 };

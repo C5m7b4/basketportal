@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getDbs } from '@/api/dbApi';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
-import Pane from '../SplitPane/pane';
 import { RootState } from '@/store';
 import { Filter } from '../../svgs';
 import {
@@ -148,7 +147,7 @@ const Server = () => {
   };
 
   return (
-    <Pane>
+    <div>
       <InnerPane>
         <input
           style={{
@@ -172,7 +171,7 @@ const Server = () => {
           <div>Waiting for data...</div>
         )}
       </InnerPane>
-    </Pane>
+    </div>
   );
 };
 

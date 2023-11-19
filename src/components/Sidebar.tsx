@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { NightMode, LightMode, SkyMode, RelaxMode } from '../svgs';
 import { updateColorTheme } from '@/slices/colorThemeSlice';
+import useColorTheme from '@/hooks/useColorTheme';
+import { ColorThemeName } from '@/styles/themes';
 
 const SidebarDiv = styled.div(
   ({ theme }) => `
@@ -121,22 +123,28 @@ const Button = styled.button(
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const { setColorTheme } = useColorTheme();
+
+  const setTheme = (theme: ColorThemeName) => {
+    dispatch(updateColorTheme(theme));
+    setColorTheme(theme);
+  };
 
   return (
     <SidebarDiv>
       <div className="gutter">
         <span>Mikto Solutions</span>
         <span style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span onClick={() => dispatch(updateColorTheme('dark'))}>
+          <span onClick={() => setTheme('dark')}>
             <NightMode />
           </span>
-          <span onClick={() => dispatch(updateColorTheme('light'))}>
+          <span onClick={() => setTheme('light')}>
             <LightMode />
           </span>
-          <span onClick={() => dispatch(updateColorTheme('sky'))}>
+          <span onClick={() => setTheme('sky')}>
             <SkyMode />
           </span>
-          <span onClick={() => dispatch(updateColorTheme('mixed'))}>
+          <span onClick={() => setTheme('mixed')}>
             <RelaxMode />
           </span>
         </span>

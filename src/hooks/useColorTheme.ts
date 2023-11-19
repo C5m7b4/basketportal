@@ -11,10 +11,13 @@ import {
   ColorThemeStyle,
   isColorThemeName,
 } from '@/styles/themes';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const useColorTheme = () => {
   const dispatch = useAppDispatch();
-  const currentColorTheme = useAppSelector(selectColorTheme);
+  const state = useSelector((state: RootState) => state.colorTheme);
+  const currentColorTheme = state.theme;
 
   const setColorTheme = (colorThemeName: ColorThemeName) => {
     setColorThemeCookie(colorThemeName);
@@ -34,7 +37,7 @@ const useColorTheme = () => {
     dispatch(updateColorTheme(currentColorThemeCookie));
   };
 
-  const getCurrentColorThemeState = (): ColorTheme => currentColorThemeState;
+  const getCurrentColorThemeName = (): ColorThemeName => currentColorTheme;
 
   const getCurrentColorThemeStyle = (): ColorThemeStyle =>
     themeNameStyleMap[currentColorTheme];
@@ -42,7 +45,7 @@ const useColorTheme = () => {
   return {
     setColorTheme,
     initColorTheme,
-    getCurrentColorThemeState,
+    getCurrentColorThemeName,
     getCurrentColorThemeStyle,
   };
 };

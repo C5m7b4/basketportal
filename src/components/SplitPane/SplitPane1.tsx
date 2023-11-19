@@ -13,15 +13,61 @@ const Main = styled.div<MainProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   width: 100%;
+  background-color: ${(props) => props.theme.body.background};
+  color: ${(props) => props.theme.body.text};
+`;
+
+interface PaneDivProps {
+  theme: ColorThemeStyle;
+  minSize?: number;
+}
+
+const PaneDivVertical = styled.div<PaneDivProps>`
+  flex: 1;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.sidebar.color};
+  color: ${(props) => props.theme.sidebar.text};
+`;
+const PaneDivHorizontal = styled.div<PaneDivProps>`
+  flex: 1;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.sidebar.color};
+  color: ${(props) => props.theme.sidebar.text};
+`;
+
+const PaneDiv = styled.div<PaneDivProps>`
+  flex: 1;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.sidebar.color};
+  color: ${(props) => props.theme.sidebar.text};
+`;
+
+interface ResizerProps {
+  theme: ColorThemeStyle;
+  direction: 'row-resize' | 'col-resize';
+}
+const SeparatorVertical = styled.div<ResizerProps>`
+  border: 5px solid ${(props) => props.theme.colors.border};
+  cursor: ${(props) => props.direction};
+  width: 5px;
+  background-color: black;
+`;
+
+const SeparatorHorizontal = styled.div<ResizerProps>`
+  border: 5px solid ${(props) => props.theme.colors.border};
+  cursor: ${(props) => props.direction};
+  height: 5px;
+  width: 100%;
+  background-color: black;
 `;
 
 export type SplitPaneContextType = {
-  topHeight: number;
-  setTopHeight: (n: number) => void;
+  position: number;
+  setPosition: (n: number) => void;
 };
 const initialValue: SplitPaneContextType = {
-  topHeight: 0,
-  setTopHeight: (n: number) => n,
+  position: 0,
+  setPosition: (n: number) => n,
 };
 const SplitPaneContext =
   React.createContext<SplitPaneContextType>(initialValue);
@@ -30,37 +76,54 @@ export type PanelDirection = 'vertical' | 'horizontal';
 type SplitPaneProps = {
   children: JSX.Element[];
   direction: PanelDirection;
+  minSize: number;
 };
 
 const SplitPane: React.FC<SplitPaneProps> = ({
   children,
   direction = 'vertical',
+  minSize = 25,
 }) => {
   const { getCurrentColorThemeStyle } = useColorTheme();
   const theme = getCurrentColorThemeStyle();
-  const [topHeight, setTopHeight] = React.useState<number>(0);
-  const separatorYPosition = React.useRef<number | null>(null);
+  const [position, setPosition] = React.useState<number | null>(null);
+  const separatorPosition = React.useRef<number | null>(null);
   const splitPaneRef = React.createRef<HTMLDivElement>();
+  const dragging = React.useRef<boolean>(false);
 
   const onMouseDown = (e: React.MouseEvent) => {
-    separatorYPosition.current = e.clientY;
+    dragging.current = true;
+    if (direction === 'horizontal') {
+      separatorPosition.current = e.clientY;
+    } else {
+      separatorPosition.current = e.clientX;
+    }
   };
 
   const onMouseMove = (e: MouseEvent) => {
-    if (!separatorYPosition.current) {
+    if (!separatorPosition.current) {
       return;
     }
-    const newTopHeight =
-      Number(topHeight) + e.clientY - separatorYPosition.current;
-    separatorYPosition.current = e.clientY;
+    if (!dragging.current) return;
 
-    //const splitPaneHeight = splitPaneRef?.current?.clientHeight;
-
-    setTopHeight(newTopHeight);
+    if (direction === 'horizontal') {
+      const newposition =
+        Number(position) + e.clientY - separatorPosition.current;
+      separatorPosition.current = e.clientY;
+      // const splitPaneHeight = splitPaneRef?.current?.clientHeight;
+      setPosition(newposition);
+    } else {
+      const newposition =
+        Number(position) + e.clientX - separatorPosition.current;
+      separatorPosition.current = e.clientX;
+      // const splitPaneHeight = splitPaneRef?.current?.clientHeight;
+      setPosition(newposition);
+    }
   };
 
   const onMouseUp = () => {
-    separatorYPosition.current = null;
+    dragging.current = false;
+    separatorPosition.current = null;
   };
 
   React.useEffect(() => {
@@ -75,14 +138,30 @@ const SplitPane: React.FC<SplitPaneProps> = ({
 
   return (
     <Main
-      id="main-splitter-div"
       ref={splitPaneRef}
-      direction={direction === 'vertical' ? 'column' : 'row'}
+      direction={direction === 'vertical' ? 'row' : 'column'}
       theme={theme}
     >
-      <SplitPaneContext.Provider value={{ topHeight, setTopHeight }}>
-        <PaneOne contents={children[0]} direction={direction} />
-        <div className="separator" onMouseDown={onMouseDown} />
+      <SplitPaneContext.Provider value={{ position, setPosition }}>
+        <PaneOne
+          minSize={minSize}
+          contents={children[0]}
+          direction={direction}
+        />
+        {direction === 'horizontal' ? (
+          <SeparatorHorizontal
+            onMouseDown={onMouseDown}
+            theme={theme}
+            direction={'row-resize'}
+          />
+        ) : (
+          <SeparatorVertical
+            onMouseDown={onMouseDown}
+            theme={theme}
+            direction={'col-resize'}
+          />
+        )}
+
         <PaneTwo contents={children[1]} />
       </SplitPaneContext.Provider>
     </Main>
@@ -92,34 +171,68 @@ const SplitPane: React.FC<SplitPaneProps> = ({
 export type PaneProps = {
   contents: JSX.Element;
   direction?: PanelDirection;
+  minSize?: number;
 };
 
-export const PaneOne: React.FC<PaneProps> = ({ contents, direction }) => {
+export const PaneOne: React.FC<PaneProps> = ({
+  contents,
+  direction,
+  minSize = 25,
+}) => {
   const topRef = React.createRef<HTMLDivElement>();
-  const { topHeight, setTopHeight } = React.useContext(SplitPaneContext);
+  const { position, setPosition } = React.useContext(SplitPaneContext);
 
   React.useEffect(() => {
     if (!topRef) return;
     if (!topRef.current) return;
 
-    if (!topHeight) {
-      setTopHeight(topRef.current.clientHeight);
+    if (!position) {
+      if (direction === 'horizontal') {
+        const parent = topRef.current.parentNode;
+        const rect: number = parent.getBoundingClientRect().height;
+        const percentage = minSize / 100;
+        const pixels = rect * percentage;
+        setPosition(pixels);
+        //setPosition(topRef.current.clientHeight);
+      } else {
+        // calculate the width based on the minWidth property
+        const parent = topRef.current.parentNode;
+        const rect: number = parent.getBoundingClientRect().width;
+        const percentage = minSize / 100;
+        const pixels = rect * percentage;
+        setPosition(pixels);
+
+        //setPosition(topRef.current.clientWidth);
+      }
+
       topRef.current.style.flex = 'none';
       return;
     }
 
-    topRef.current.style.height = `${topHeight}px`;
-  }, [topHeight]);
+    if (direction === 'horizontal') {
+      topRef.current.style.height = `${position}px`;
+    } else {
+      topRef.current.style.width = `${position}px`;
+    }
+  }, [position]);
 
   return (
-    <div className="split-pane-top" ref={topRef}>
-      {contents}
-    </div>
+    <>
+      {direction === 'horizontal' ? (
+        <PaneDivVertical ref={topRef} style={{ height: `'${minSize}%'` }}>
+          {contents}
+        </PaneDivVertical>
+      ) : (
+        <PaneDivHorizontal ref={topRef} style={{ width: `'${minSize}%'` }}>
+          {contents}
+        </PaneDivHorizontal>
+      )}
+    </>
   );
 };
 
 export const PaneTwo: React.FC<PaneProps> = ({ contents }) => {
-  return <div style={{ height: '75%' }}>{contents}</div>;
+  return <PaneDiv>{contents}</PaneDiv>;
 };
 
 export default SplitPane;

@@ -41,42 +41,28 @@ const DbExplorer = () => {
           display: 'flex',
         }}
       >
-        <SplitPane direction="vertical">
-          <div>Hello top</div>
-          <div>Hello bottom</div>
-        </SplitPane>
-        {/* <SplitPane split="vertical" minSize={50}>
-          <div>div1</div>
-          <div>div2</div>
-        </SplitPane> */}
-        {/* <SplitPane
-          split="vertical"
-          sizes={sizes}
-          onChange={setSizes}
-          sashClassName="sash"
-        >
+        <SplitPane direction="vertical" minSize={23}>
           <Server />
           <div style={{ height: '100%', display: 'flex' }}>
-            <SplitPane split="horizontal" sizes={sizes1} onChange={setSizes1}>
-              <Pane>
-                <div>
-                  <div className="query-toolbar">
-                    <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                      <Plus />
-                    </span>
-                    <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                      <Minus />
-                    </span>
-                    <span style={{ marginLeft: '5px' }}>
-                      <Save />
-                    </span>
-                  </div>
-                  <Tabs>
-                    <Tab title="query 1">select * from price_tab</Tab>
-                    <Tab title="query 2"></Tab>
-                  </Tabs>
+            <SplitPane direction="horizontal" minSize={45}>
+              <div>
+                <div className="query-toolbar">
+                  <span style={{ marginLeft: '5px', marginTop: '3px' }}>
+                    <Plus />
+                  </span>
+                  <span style={{ marginLeft: '5px', marginTop: '3px' }}>
+                    <Minus />
+                  </span>
+                  <span style={{ marginLeft: '5px' }}>
+                    <Save />
+                  </span>
                 </div>
-              </Pane>
+                <Tabs>
+                  <Tab title="query 1">select * from price_tab</Tab>
+                  <Tab title="query 2"></Tab>
+                </Tabs>
+              </div>
+
               <div>
                 <Tabs>
                   <Tab title="Output"></Tab>
@@ -85,7 +71,7 @@ const DbExplorer = () => {
               </div>
             </SplitPane>
           </div>
-        </SplitPane> */}
+        </SplitPane>
       </div>
     </Main>
   );

@@ -52,7 +52,7 @@ export const lightTheme: ColorThemeStyle = {
     text: dryadBark,
     background: errigalWhite,
     componentBackground: white,
-    border: gainsboro,
+    border: dryadBarkHover,
     info: vegetation,
     infoBg: softPetals,
     danger: coralRed,
