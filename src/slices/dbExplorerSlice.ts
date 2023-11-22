@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface DbColumn {
   name: string;
@@ -19,16 +19,45 @@ export interface Database {
   tables?: DbTable[];
 }
 
+type IAddDbList = {
+  payload: Database[];
+};
+
+type IAddTab = {
+  payload: ITab;
+};
+
+type IRemoveTab = {
+  payload: number;
+};
+
+type ITabCodeChanged = {
+  code: string;
+  id: number;
+};
+
+export type ITab = {
+  name: string;
+  query: string;
+};
+
 interface DbState {
   databases: Database[];
+  tabs: ITab[] | [];
+  tabId: number;
+  selectedTab: number;
 }
 
 const initialState: DbState = {
   databases: [],
-};
-
-type IAddDbList = {
-  payload: Database[];
+  tabId: 0,
+  tabs: [
+    {
+      name: 'tab 0',
+      query: 'select * from apikeys',
+    },
+  ],
+  selectedTab: 0,
 };
 
 export const dbSlice = createSlice({
@@ -38,9 +67,41 @@ export const dbSlice = createSlice({
     setDatabases: (state, action: IAddDbList) => {
       state.databases = action.payload;
     },
+    addTabId: (state) => {
+      state.tabId = state.tabId + 1;
+    },
+    addTab: (state, action: IAddTab) => {
+      state.tabs = [...state.tabs, action.payload];
+      state.tabId = state.tabId + 1;
+      state.selectedTab = state.tabId;
+    },
+    removeTab: (state, action: IRemoveTab) => {
+      const tabs = [...state.tabs];
+      tabs.splice(action.payload, 1);
+      state.tabs = tabs;
+      state.tabId = state.tabId - 1;
+      state.selectedTab = state.tabs.length - 1;
+    },
+    setSelectedTab: (state, action: PayloadAction<number>) => {
+      state.selectedTab = action.payload;
+    },
+    tabCodeChanged: (state, action: PayloadAction<ITabCodeChanged>) => {
+      const tab: ITab = state.tabs[action.payload.id];
+      tab.query = action.payload.code;
+      const tabs = [...state.tabs];
+      tabs.splice(action.payload.id, 1, tab);
+      state.tabs = tabs;
+    },
   },
 });
 
-export const { setDatabases } = dbSlice.actions;
+export const {
+  setDatabases,
+  addTabId,
+  addTab,
+  removeTab,
+  setSelectedTab,
+  tabCodeChanged,
+} = dbSlice.actions;
 
 export default dbSlice.reducer;

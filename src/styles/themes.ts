@@ -22,6 +22,8 @@ export type ColorThemeStyle = {
   sidebar: {
     text: string;
     color: string;
+    hover: string;
+    hoverText: string;
   };
   buttons: {
     primary: {

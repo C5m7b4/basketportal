@@ -65,6 +65,8 @@ export const lightTheme: ColorThemeStyle = {
   sidebar: {
     color: light_primary_400,
     text: dryadBark,
+    hover: dryadBarkHover,
+    hoverText: errigalWhite,
   },
   buttons: {
     primary: {
@@ -93,6 +95,8 @@ export const darkTheme: ColorThemeStyle = {
   sidebar: {
     color: dark_surface_100,
     text: dark_surface_500,
+    hover: dark_primary_600,
+    hoverText: light_primary_500,
   },
   buttons: {
     primary: {
@@ -121,6 +125,8 @@ export const mixedTheme: ColorThemeStyle = {
   sidebar: {
     color: dark_mixed_100,
     text: dark_mixed_500,
+    hover: dark_mixed_600,
+    hoverText: dark_mixed_200,
   },
   buttons: {
     primary: {
@@ -149,6 +155,8 @@ export const skyTheme: ColorThemeStyle = {
   sidebar: {
     color: sky_mixed_100,
     text: sky_mixed_500,
+    hover: sky_mixed_300,
+    hoverText: sky_mixed_100,
   },
   buttons: {
     primary: {

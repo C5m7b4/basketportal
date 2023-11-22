@@ -1,8 +1,12 @@
 import React from 'react';
 
-export const Plus = () => {
+type Props = {
+  onClick: () => void;
+};
+
+export const Plus: React.FC<Props> = ({ onClick }) => {
   return (
-    <div style={{ cursor: 'pointer' }}>
+    <div style={{ cursor: 'pointer' }} onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="1em"

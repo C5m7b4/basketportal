@@ -8,6 +8,7 @@ import { NightMode, LightMode, SkyMode, RelaxMode } from '../svgs';
 import { updateColorTheme } from '@/slices/colorThemeSlice';
 import useColorTheme from '@/hooks/useColorTheme';
 import { ColorThemeName } from '@/styles/themes';
+import ReactTooltip from '../components/Tooltips/ReactTooltip';
 
 const SidebarDiv = styled.div(
   ({ theme }) => `
@@ -87,29 +88,32 @@ const Nav = styled.nav(
     margin: 0;
     list-style: none;
     color: ${theme.sidebar.text}
+    transition: all .3s ease;
   }
   nav ul li {
     margin: 0.25rem 0;
     color: ${theme.sidebar.text}
+    transition: all .3s ease;
   }
   nav a {
     display: flex;
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-  
     white-space: pre;
     padding: 0.5rem;
     border-radius: 8px;
     color: inherit;
     text-decoration: none;
     gap: 1rem;
+    transition: all .3s ease;
   }
   nav li:hover {
-    background: #e3e3e3;
+    background: ${theme.sidebar.hover};
+    color: ${theme.sidebar.hoverText}
   }
   nav a.active {
-    background: hsl(224, 98%, 58%);
+    background: ${theme.sidebar.hover};
     color: white;
   }
   `
@@ -136,16 +140,24 @@ const Sidebar = () => {
         <span>Mikto Solutions</span>
         <span style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span onClick={() => setTheme('dark')}>
-            <NightMode />
+            <ReactTooltip content="Switch to Night Mode">
+              <NightMode />
+            </ReactTooltip>
           </span>
           <span onClick={() => setTheme('light')}>
-            <LightMode />
+            <ReactTooltip content="Swith to Light Mode">
+              <LightMode />
+            </ReactTooltip>
           </span>
           <span onClick={() => setTheme('sky')}>
-            <SkyMode />
+            <ReactTooltip content="Switch to Sky Mode">
+              <SkyMode />
+            </ReactTooltip>
           </span>
           <span onClick={() => setTheme('mixed')}>
-            <RelaxMode />
+            <ReactTooltip content="Swith to Relax Mode">
+              <RelaxMode />
+            </ReactTooltip>
           </span>
         </span>
       </div>

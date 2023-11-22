@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-//import SplitPane from '../components/SplitPane/SplitPane';
-//import Pane from '../components/SplitPane/pane';
-// import SplitPane from '../components/SplitPane/SplitPane';
+import React, { useEffect } from 'react';
 import SplitPane from '../components/SplitPane/SplitPane1';
 import { Database as Db, Save, Plus, Minus } from '../svgs';
 import Tabs from '@/components/Tabs/Tabs';
 import Tab from '@/components/Tabs/Tab';
 import Server from '../components/DbExplorer/Server';
 import styled from 'styled-components';
+import Queries from '../components/DbExplorer/Queries';
+import { useDispatch, useSelector } from 'react-redux';
+import { ITab, addTab, setSelectedTab } from '@/slices/dbExplorerSlice';
+import { RootState } from '@/store';
+import ReactTooltip from '../components/Tooltips/ReactTooltip';
 
 const Main = styled.div(
   ({ theme }) => `
@@ -17,10 +19,22 @@ const Main = styled.div(
 );
 
 const DbExplorer = () => {
-  // const [sizes, setSizes] = useState([100, '30%', 'auto']);
-  // const [sizes1, setSizes1] = useState([100, '30%', 'auto']);
+  const state = useSelector((state: RootState) => state.dbs);
+  const dispatch = useDispatch();
 
   useEffect(() => {}, []);
+
+  const handleAddTab = () => {
+    const tab: ITab = {
+      name: `Tab ${state.tabId + 1}`,
+      query: '',
+    };
+    dispatch(addTab(tab));
+  };
+
+  const handleRemoveTab = (index: number) => {
+    dispatch(setSelectedTab(index));
+  };
 
   return (
     <Main>
@@ -48,19 +62,20 @@ const DbExplorer = () => {
               <div>
                 <div className="query-toolbar">
                   <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                    <Plus />
+                    <ReactTooltip content={'Add Query'}>
+                      <Plus onClick={handleAddTab} />
+                    </ReactTooltip>
                   </span>
                   <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                    <Minus />
+                    <ReactTooltip content={'Remove Query'}>
+                      <Minus onClick={handleRemoveTab} />
+                    </ReactTooltip>
                   </span>
                   <span style={{ marginLeft: '5px' }}>
                     <Save />
                   </span>
                 </div>
-                <Tabs>
-                  <Tab title="query 1">select * from price_tab</Tab>
-                  <Tab title="query 2"></Tab>
-                </Tabs>
+                <Queries />
               </div>
 
               <div>

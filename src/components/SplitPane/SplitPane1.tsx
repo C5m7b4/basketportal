@@ -15,6 +15,7 @@ const Main = styled.div<MainProps>`
   width: 100%;
   background-color: ${(props) => props.theme.body.background};
   color: ${(props) => props.theme.body.text};
+  transition: all 0.3s ease;
 `;
 
 interface PaneDivProps {
@@ -27,12 +28,14 @@ const PaneDivVertical = styled.div<PaneDivProps>`
   overflow: hidden;
   background-color: ${(props) => props.theme.sidebar.color};
   color: ${(props) => props.theme.sidebar.text};
+  transition: all 0.3s ease;
 `;
 const PaneDivHorizontal = styled.div<PaneDivProps>`
   flex: 1;
   overflow: hidden;
   background-color: ${(props) => props.theme.sidebar.color};
   color: ${(props) => props.theme.sidebar.text};
+  transition: all 0.3s ease;
 `;
 
 const PaneDiv = styled.div<PaneDivProps>`
@@ -40,6 +43,7 @@ const PaneDiv = styled.div<PaneDivProps>`
   overflow: hidden;
   background-color: ${(props) => props.theme.sidebar.color};
   color: ${(props) => props.theme.sidebar.text};
+  transition: all 0.3s ease;
 `;
 
 interface ResizerProps {
@@ -51,6 +55,7 @@ const SeparatorVertical = styled.div<ResizerProps>`
   cursor: ${(props) => props.direction};
   width: 5px;
   background-color: black;
+  transition: all 0.3s ease;
 `;
 
 const SeparatorHorizontal = styled.div<ResizerProps>`
@@ -59,6 +64,7 @@ const SeparatorHorizontal = styled.div<ResizerProps>`
   height: 5px;
   width: 100%;
   background-color: black;
+  transition: all 0.3s ease;
 `;
 
 export type SplitPaneContextType = {

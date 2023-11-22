@@ -5,7 +5,7 @@ type Props = {
   children?: JSX.Element | string | JSX.Element[];
 };
 
-const Tab: React.FC<Props> = ({ children }) => {
+const Tab: React.FC<Props> = ({ children, title }) => {
   return <div style={{ padding: '8px' }}>{children}</div>;
 };
 

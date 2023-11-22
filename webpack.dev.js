@@ -10,7 +10,7 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     historyApiFallback: true,
-    port: 3000,
+    port: 3007,
     compress: true,
     client: {
       overlay: false,

@@ -1,6 +1,15 @@
 import React from 'react';
+import useColorTheme from '../hooks/useColorTheme';
 
 export const LightMode = () => {
+  const { getCurrentColorThemeStyle } = useColorTheme();
+  const theme = getCurrentColorThemeStyle();
+  const style = {
+    fill: 'none',
+    stroke: theme.sidebar.text,
+    strokeWidth: '16',
+  };
+
   return (
     <div style={{ cursor: 'pointer', marginTop: '3px' }}>
       <svg
@@ -13,7 +22,7 @@ export const LightMode = () => {
           <circle
             style={{
               fill: 'none',
-              stroke: '#ffff00',
+              stroke: theme.sidebar.text,
               strokeWidth: '80',
               strokeDasharray: '20,30',
             }}
@@ -22,7 +31,12 @@ export const LightMode = () => {
             r="183.53"
           />
         </g>
-        <circle style={{ fill: '#ffff00' }} cx="256" cy="256.62" r="126.23" />
+        <circle
+          style={{ fill: theme.sidebar.text }}
+          cx="256"
+          cy="256.62"
+          r="126.23"
+        />
       </svg>
     </div>
   );

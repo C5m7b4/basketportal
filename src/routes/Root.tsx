@@ -25,7 +25,7 @@ export default function Root() {
         {!loginState.authenticated ? (
           <Login />
         ) : (
-          <div style={{ display: 'flex', height: '100%', width: '1000%' }}>
+          <div style={{ display: 'flex', height: '100%', width: '100%' }}>
             <Sidebar />
             <Detail id="detail">
               <Outlet />
