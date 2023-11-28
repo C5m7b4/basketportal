@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDbs } from '@/api/dbApi';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ import {
 } from '@/slices/dbExplorerSlice';
 import Tree from '../Tree/Tree';
 import { ITreeData } from '../Tree/types';
-import { TreeNodeProps } from '../Tree/TreeNode';
+// import { TreeNodeProps } from '../Tree/TreeNode';
 import styled from 'styled-components';
 
 const InnerPane = styled.div(
@@ -56,10 +56,19 @@ const Server = () => {
   const [treeData, setTreeData] = useState<ITreeData[]>(null);
   const dispatch = useDispatch();
 
+  const heightRef = useRef<number>(0);
+
   let index = 0;
 
   useEffect(() => {
     fetchDbList();
+    const div = document.getElementById('detail');
+    if (div) {
+      const box = div.getBoundingClientRect();
+      const height = box.height - 140;
+      heightRef.current = height;
+      console.log('heightRef', heightRef.current);
+    }
   }, []);
 
   const getIndex = () => {
@@ -146,8 +155,10 @@ const Server = () => {
     });
   };
 
+  console.log('heightRef', heightRef.current);
+
   return (
-    <div>
+    <div id="server">
       <InnerPane>
         <input
           style={{
@@ -164,7 +175,13 @@ const Server = () => {
           <Filter />
         </span>
       </InnerPane>
-      <InnerPane style={{ height: '100vh', display: 'flex' }}>
+      <InnerPane
+        style={{
+          height: `${heightRef.current}px`,
+          display: 'flex',
+          overflowY: 'scroll',
+        }}
+      >
         {treeData ? (
           <Tree treeData={treeData} />
         ) : (

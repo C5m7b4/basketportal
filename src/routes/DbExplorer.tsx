@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
-import SplitPane from '../components/SplitPane/SplitPane1';
-import { Database as Db, Save, Plus, Minus } from '../svgs';
+import React, { useState, useEffect, useRef } from 'react';
+import SplitPane1 from '../components/SplitPane/SplitPane1';
+import SplitPane from '../components/SplitPane/SplitPane';
+import { Database as Db } from '../svgs';
 import Tabs from '@/components/Tabs/Tabs';
 import Tab from '@/components/Tabs/Tab';
 import Server from '../components/DbExplorer/Server';
 import styled from 'styled-components';
 import Queries from '../components/DbExplorer/Queries';
 import { useDispatch, useSelector } from 'react-redux';
-import { ITab, addTab, setSelectedTab } from '@/slices/dbExplorerSlice';
 import { RootState } from '@/store';
 import ReactTooltip from '../components/Tooltips/ReactTooltip';
+import { runQuery } from '@/api/dbApi';
+import Results from '../components/DbExplorer/Results';
+import { SchemaType } from '../components/DbExplorer/Results';
+import DbGrid from '@/components/DbExplorer/DbGrid';
 
 const Main = styled.div(
   ({ theme }) => `
@@ -20,21 +24,21 @@ const Main = styled.div(
 
 const DbExplorer = () => {
   const state = useSelector((state: RootState) => state.dbs);
+  const context = useSelector((state: RootState) => state.app);
+  const [schema, setSchema] = useState<SchemaType[]>([]);
+  const [table, setTable] = useState<any[]>();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  const containerRefHeight = useRef<number>(0);
 
-  const handleAddTab = () => {
-    const tab: ITab = {
-      name: `Tab ${state.tabId + 1}`,
-      query: '',
-    };
-    dispatch(addTab(tab));
-  };
-
-  const handleRemoveTab = (index: number) => {
-    dispatch(setSelectedTab(index));
-  };
+  useEffect(() => {
+    const div = document.getElementById('detail');
+    if (div) {
+      const box = div.getBoundingClientRect();
+      const height = box.height - 85;
+      containerRefHeight.current = height;
+    }
+  }, []);
 
   return (
     <Main>
@@ -49,7 +53,7 @@ const DbExplorer = () => {
 
       <div
         style={{
-          height: 800,
+          height: `${containerRefHeight.current}px`,
           border: '2px solid black',
           borderRadius: '8px',
           display: 'flex',
@@ -57,35 +61,12 @@ const DbExplorer = () => {
       >
         <SplitPane direction="vertical" minSize={23}>
           <Server />
-          <div style={{ height: '100%', display: 'flex' }}>
-            <SplitPane direction="horizontal" minSize={45}>
-              <div>
-                <div className="query-toolbar">
-                  <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                    <ReactTooltip content={'Add Query'}>
-                      <Plus onClick={handleAddTab} />
-                    </ReactTooltip>
-                  </span>
-                  <span style={{ marginLeft: '5px', marginTop: '3px' }}>
-                    <ReactTooltip content={'Remove Query'}>
-                      <Minus onClick={handleRemoveTab} />
-                    </ReactTooltip>
-                  </span>
-                  <span style={{ marginLeft: '5px' }}>
-                    <Save />
-                  </span>
-                </div>
-                <Queries />
-              </div>
-
-              <div>
-                <Tabs>
-                  <Tab title="Output"></Tab>
-                  <Tab title="Messages"></Tab>
-                </Tabs>
-              </div>
-            </SplitPane>
-          </div>
+          {/* <div style={{ display: 'flex' }}> */}
+          <SplitPane1 direction="horizontal" minSize={50}>
+            <Queries setSchema={setSchema} setTable={setTable} />
+            <Results schema={schema} table={table} />
+          </SplitPane1>
+          {/* </div> */}
         </SplitPane>
       </div>
     </Main>

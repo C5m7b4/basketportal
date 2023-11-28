@@ -19,19 +19,19 @@ export interface Database {
   tables?: DbTable[];
 }
 
-type IAddDbList = {
+export type IAddDbList = {
   payload: Database[];
 };
 
-type IAddTab = {
+export type IAddTab = {
   payload: ITab;
 };
 
-type IRemoveTab = {
+export type IRemoveTab = {
   payload: number;
 };
 
-type ITabCodeChanged = {
+export type ITabCodeChanged = {
   code: string;
   id: number;
 };
@@ -54,7 +54,7 @@ const initialState: DbState = {
   tabs: [
     {
       name: 'tab 0',
-      query: 'select * from apikeys',
+      query: 'select * from sal_reg',
     },
   ],
   selectedTab: 0,

@@ -44,6 +44,7 @@ const PaneDiv = styled.div<PaneDivProps>`
   background-color: ${(props) => props.theme.sidebar.color};
   color: ${(props) => props.theme.sidebar.text};
   transition: all 0.3s ease;
+  // min-height: 400px;
 `;
 
 interface ResizerProps {
@@ -85,7 +86,7 @@ type SplitPaneProps = {
   minSize: number;
 };
 
-const SplitPane: React.FC<SplitPaneProps> = ({
+const SplitPane1: React.FC<SplitPaneProps> = ({
   children,
   direction = 'vertical',
   minSize = 25,
@@ -93,7 +94,7 @@ const SplitPane: React.FC<SplitPaneProps> = ({
   const { getCurrentColorThemeStyle } = useColorTheme();
   const theme = getCurrentColorThemeStyle();
   const [position, setPosition] = React.useState<number | null>(null);
-  const separatorPosition = React.useRef<number | null>(null);
+  const separatorPosition = React.useRef<number>(0);
   const splitPaneRef = React.createRef<HTMLDivElement>();
   const dragging = React.useRef<boolean>(false);
 
@@ -129,7 +130,7 @@ const SplitPane: React.FC<SplitPaneProps> = ({
 
   const onMouseUp = () => {
     dragging.current = false;
-    separatorPosition.current = null;
+    separatorPosition.current = 0;
   };
 
   React.useEffect(() => {
@@ -195,20 +196,18 @@ export const PaneOne: React.FC<PaneProps> = ({
     if (!position) {
       if (direction === 'horizontal') {
         const parent = topRef.current.parentNode;
-        const rect: number = parent.getBoundingClientRect().height;
+        const rect: number = (parent as HTMLDivElement).getBoundingClientRect()
+          .height;
         const percentage = minSize / 100;
         const pixels = rect * percentage;
         setPosition(pixels);
-        //setPosition(topRef.current.clientHeight);
       } else {
-        // calculate the width based on the minWidth property
         const parent = topRef.current.parentNode;
-        const rect: number = parent.getBoundingClientRect().width;
+        const rect: number = (parent as HTMLDivElement).getBoundingClientRect()
+          .width;
         const percentage = minSize / 100;
         const pixels = rect * percentage;
         setPosition(pixels);
-
-        //setPosition(topRef.current.clientWidth);
       }
 
       topRef.current.style.flex = 'none';
@@ -241,4 +240,4 @@ export const PaneTwo: React.FC<PaneProps> = ({ contents }) => {
   return <PaneDiv>{contents}</PaneDiv>;
 };
 
-export default SplitPane;
+export default SplitPane1;
