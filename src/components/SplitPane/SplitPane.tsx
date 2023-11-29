@@ -240,7 +240,7 @@ export const PaneOne: React.FC<PaneProps> = ({
 };
 
 export const PaneTwo: React.FC<PaneProps> = ({ contents }) => {
-  return <PaneDiv>{contents}</PaneDiv>;
+  return <PaneDiv id="pane-master-1-2">{contents}</PaneDiv>;
 };
 
 export default SplitPane;

@@ -66,7 +66,6 @@ const DbExplorer = () => {
             <Queries setSchema={setSchema} setTable={setTable} />
             <Results schema={schema} table={table} />
           </SplitPane1>
-          {/* </div> */}
         </SplitPane>
       </div>
     </Main>

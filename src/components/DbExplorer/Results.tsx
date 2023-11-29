@@ -16,7 +16,7 @@ type Props = {
 const TabDiv = styled.div(
   ({ theme }) => `
   flex: 1;
-  overflow: scroll;
+  overflow: hidden;
   `
 );
 
@@ -43,6 +43,7 @@ const Results: React.FC<Props> = (props) => {
 
   const resultRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLDivElement>(null);
+  const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // showMessages ? setActiveTab(1) : setActiveTab(0);
@@ -57,6 +58,21 @@ const Results: React.FC<Props> = (props) => {
         }
       }
     }
+
+    setTimeout(() => {
+      if (windowRef && windowRef.current) {
+        const master = document.getElementById('pane-master-1-2');
+        if (master) {
+          const rect1 = (master as HTMLDivElement).getBoundingClientRect();
+          const topPane = document.getElementById('pane2-top');
+          const rect2 = (topPane as HTMLDivElement).getBoundingClientRect()
+            .height;
+          const newHeight = rect1.height - rect2 - 20;
+          windowRef.current.style.height = `${newHeight}px`;
+          windowRef.current.style.width = `${rect1.width}px`;
+        }
+      }
+    }, 1000);
   }, [activeTab, showMessages]);
 
   const handleClick = (e: number) => {
@@ -66,7 +82,7 @@ const Results: React.FC<Props> = (props) => {
   console.log('activeTab', activeTab);
 
   return (
-    <TabDiv>
+    <TabDiv ref={windowRef} id="result-tab-div">
       <Ul style={{ borderBottom: '1px solid black' }}>
         <li
           onClick={() => handleClick(0)}
@@ -100,8 +116,8 @@ const Results: React.FC<Props> = (props) => {
           Messages
         </li>
       </Ul>
-      <div>
-        <div ref={resultRef}>
+      <div style={{ height: '90%', overflow: 'hidden' }}>
+        <div ref={resultRef} style={{ height: '100%' }}>
           <DbGrid table={table} schema={schema} />
         </div>
         <div ref={messageRef}>messages go here</div>

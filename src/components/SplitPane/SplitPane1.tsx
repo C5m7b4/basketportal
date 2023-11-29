@@ -145,6 +145,7 @@ const SplitPane1: React.FC<SplitPaneProps> = ({
 
   return (
     <Main
+      id="pane2-master"
       ref={splitPaneRef}
       direction={direction === 'vertical' ? 'row' : 'column'}
       theme={theme}
@@ -224,11 +225,19 @@ export const PaneOne: React.FC<PaneProps> = ({
   return (
     <>
       {direction === 'horizontal' ? (
-        <PaneDivVertical ref={topRef} style={{ height: `'${minSize}%'` }}>
+        <PaneDivVertical
+          id="pane2-top"
+          ref={topRef}
+          style={{ height: `'${minSize}%'` }}
+        >
           {contents}
         </PaneDivVertical>
       ) : (
-        <PaneDivHorizontal ref={topRef} style={{ width: `'${minSize}%'` }}>
+        <PaneDivHorizontal
+          id="pane2-top"
+          ref={topRef}
+          style={{ width: `'${minSize}%'` }}
+        >
           {contents}
         </PaneDivHorizontal>
       )}
@@ -237,7 +246,7 @@ export const PaneOne: React.FC<PaneProps> = ({
 };
 
 export const PaneTwo: React.FC<PaneProps> = ({ contents }) => {
-  return <PaneDiv>{contents}</PaneDiv>;
+  return <PaneDiv id="pane2">{contents}</PaneDiv>;
 };
 
 export default SplitPane1;

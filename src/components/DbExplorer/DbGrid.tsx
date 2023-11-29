@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SchemaType } from './Results';
 import styled from 'styled-components';
 
@@ -6,11 +6,14 @@ const Container = styled.div(
   ({ theme }) => `
     overflow-x: scroll;
     overflow-y: scroll;
+    height: 100%;
+    width: 100%;
   `
 );
 const Table = styled.table(
   ({ theme }) => `
   width: 100%;
+  height: 100%;
   border: 1px solid white;
   `
 );
@@ -44,8 +47,21 @@ type Props = {
 
 const DbGrid: React.FC<Props> = (props) => {
   const { schema, table } = props;
+
+  const windowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (windowRef && windowRef.current) {
+        const parent = windowRef.current.parentNode;
+        const rect = (parent as HTMLDivElement).getBoundingClientRect();
+        //windowRef.current.style.height = `${rect.height}px`;
+      }
+    }, 500);
+  }, []);
+
   return (
-    <Container>
+    <Container ref={windowRef}>
       <Table>
         <thead>
           <Tr>
